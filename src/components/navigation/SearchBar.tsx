@@ -40,10 +40,12 @@ const SearchBar = () => {
   };
 
   const handleSearchClick = () => setSearchExpanded(true);
-  
 
   return (
-    <div className="ml-auto flex-1 sm:flex-initial relative" ref={searchContainerRef}>
+    <div
+      className="relative ml-auto flex-1 sm:flex-initial"
+      ref={searchContainerRef}
+    >
       <div className="flex items-center">
         <Button
           variant="ghost"
@@ -55,14 +57,16 @@ const SearchBar = () => {
           <span className="sr-only">Search games</span>
         </Button>
         <div
-          className={`absolute right-0 top-0 flex items-center overflow-hidden transition-all duration-300 ${
-            searchExpanded ? 'w-full opacity-100 sm:w-[300px] md:w-[200px] lg:w-[300px]' : 'w-0 opacity-0'
+          className={`absolute top-0 right-0 flex items-center overflow-hidden transition-all duration-300 ${
+            searchExpanded
+              ? "w-full opacity-100 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+              : "w-0 opacity-0"
           }`}
         >
           <form className="w-full pl-8" onSubmit={handleSubmit}>
             <Input
               ref={searchInputRef}
-              type="search"
+              type="text"
               placeholder="Search games..."
               className="w-full"
               value={searchQuery}
