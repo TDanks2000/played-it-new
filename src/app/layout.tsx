@@ -4,6 +4,7 @@ import { Geist } from "next/font/google";
 
 import NavBar from "@/components/nav";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { TRPCReactProvider } from "@/trpc/react";
 import NextTopLoader from "nextjs-toploader";
 
@@ -42,6 +43,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <Toaster />
+
             <NavBar />
             {children}
           </ThemeProvider>

@@ -1,73 +1,96 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { type z } from "zod";
+
+import { loginWithCreds } from "@/app/actions/auth";
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { LoginSchema, type LoginFormType } from "@/models/forms";
+import { toast } from "sonner";
 
 const LoginForm = () => {
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: LoginFormType) {
+    try {
+      await loginWithCreds(values);
+
+      toast.success("Logged in successfully");
+      return;
+    } catch {
+      toast.error("Account not found");
+      return;
+    }
+  }
+
   return (
-    <div className="w-full lg:grid lg:min-h-[calc(100svh-65px)] lg:grid-cols-2">
-      <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-[350px] gap-6">
-          <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Login</h1>
-            <p className="text-muted-foreground text-balance">
-              Enter your email below to login to your account
-            </p>
-          </div>
-          <div className="grid gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="email">Email/Username</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="email@example.com"
-                required
-              />
-            </div>
-            <div className="grid gap-2">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email/Username</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  placeholder="email@example.com"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
               <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
+                <FormLabel>Password</FormLabel>
+                <a
                   href="/forgot-password"
                   className="ml-auto inline-block text-sm underline"
                 >
                   Forgot your password?
-                </Link>
+                </a>
               </div>
-              <Input
-                id="password"
-                type="password"
-                required
-                placeholder="********"
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
-            </Button>
-          </div>
-          <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline">
-              Sign up
-            </Link>
-          </div>
-        </div>
-      </div>
-      <div className="bg-muted hidden lg:block">
-        <Image
-          src="https://wallpapercave.com/wp/wp12164096.jpg"
-          alt="Image"
-          width="960"
-          height="540"
-          className="h-full w-full object-cover object-top dark:brightness-[0.2] dark:grayscale"
+              <FormControl>
+                <Input type="password" placeholder="********" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-    </div>
+
+        <Button type="submit" className="w-full">
+          Login
+        </Button>
+
+        <Button variant="outline" className="w-full">
+          Login with Google
+        </Button>
+      </form>
+    </Form>
   );
 };
 

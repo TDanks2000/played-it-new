@@ -3,13 +3,15 @@
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 type NavLinksProps = {
-  pathname: string[];
   isMobile?: boolean;
 };
 
-const NavLinks = ({ pathname, isMobile = false }: NavLinksProps) => {
+const NavLinks = ({ isMobile = false }: NavLinksProps) => {
+  const pathname = usePathname().split("/");
+
   return (
     <nav
       className={cn(

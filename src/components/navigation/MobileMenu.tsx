@@ -5,11 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import NavLinks from "./NavLinks";
 
-type MobileMenuProps = {
-  pathname: string[];
-};
-
-const MobileMenu = ({ pathname }: MobileMenuProps) => {
+const MobileMenu = () => {
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -19,7 +15,7 @@ const MobileMenu = ({ pathname }: MobileMenuProps) => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
-        <NavLinks pathname={pathname} isMobile={true} />
+        <NavLinks isMobile={true} />
       </SheetContent>
     </Sheet>
   );

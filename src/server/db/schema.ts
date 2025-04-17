@@ -2,6 +2,7 @@ import {
   type CompletionStatus,
   type GameStatus,
   type ReviewRating,
+  type UserRole,
 } from "@/@types";
 import { relations, sql } from "drizzle-orm";
 import {
@@ -61,6 +62,7 @@ export const users = createTable("user", (d) => ({
     .timestamp({ withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
+  role: d.varchar("role").$type<UserRole>().default("USER").notNull(),
   updatedAt: d.timestamp({ withTimezone: true }).$onUpdate(() => new Date()),
 }));
 
@@ -356,6 +358,7 @@ export const accounts = createTable(
     expires_at: d.integer(),
     token_type: d.varchar({ length: 255 }),
     scope: d.varchar({ length: 255 }),
+    role: d.varchar("role").$type<UserRole>().default("USER").notNull(),
     id_token: d.text(),
     session_state: d.varchar({ length: 255 }),
   }),

@@ -24,3 +24,5 @@ export interface UserPreferences {
     gameReleases: boolean;
   };
 }
+
+export type UserRole = null | undefined | "USER" | "ADMIN";

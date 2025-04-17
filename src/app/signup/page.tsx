@@ -1,9 +1,9 @@
-import SignUpForm from "@/features/signup/components/signupForm";
+import SignUpFormContainer from "@/features/signup/components/signUpFormContainer";
 
 const SignUpPage = () => {
   return (
     <div className="flex h-[calc(100vh-65px)] w-full items-center justify-center">
-      <SignUpForm />
+      <SignUpFormContainer />
     </div>
   );
 };
